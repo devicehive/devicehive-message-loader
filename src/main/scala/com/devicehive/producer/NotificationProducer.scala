@@ -1,6 +1,6 @@
 package com.devicehive.producer
 
-import java.util.Date
+import java.time.LocalDateTime
 import java.util.concurrent.atomic.AtomicInteger
 import com.devicehive.model.{Body, DeviceMessageEntity, DeviceNotification}
 import com.devicehive.utils.Configuration
@@ -36,7 +36,7 @@ object NotificationProducer extends Logging {
 
   def generateMessage(): DeviceMessageEntity = {
     id.getAndIncrement()
-    val notification = DeviceNotification(id.get(), "some test data", "089a5342-cc07-4e92-a209-25888ac7ea98", new Date().getTime.toString)
+    val notification = DeviceNotification(id.get(), "some test data", "089a5342-cc07-4e92-a209-25888ac7ea98", LocalDateTime.now().toString)
     val body = Body(notification, "notification_insert")
     DeviceMessageEntity(body, "", "", singleReplyExpected = false, "")
   }

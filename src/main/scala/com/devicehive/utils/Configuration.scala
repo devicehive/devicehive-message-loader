@@ -11,6 +11,8 @@ case class Configuration (
     cassRepFactor: String,
     cassKeySpace: String,
     cassTable: String,
+    batchDuration: Long,
+    dropTable: Boolean,
     producerProps: Properties
 )
 
@@ -25,8 +27,10 @@ object Configuration {
     val cassRepFactor = vars.getOrElse("CASSANDRA_REP_FACTOR", "3")
     val cassKeySpace = vars.getOrElse("CASSANDRA_KEYSPACE_NAME", "devicehive")
     val cassTable = vars.getOrElse("CASSANDRA_TABLE_NAME", "device_messages")
+    val batchDuration = vars.getOrElse("BATCH_DURATION", "10")
+    val dropTable = vars.getOrElse("DROP_TABLE", "false")
     val producerProps = new Properties()
-    producerProps.setProperty("bootstrap.servers", "localhost:9092")
+    producerProps.setProperty("bootstrap.servers", kafkaBrokers)
     producerProps.setProperty("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
     producerProps.setProperty("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
 
@@ -39,6 +43,8 @@ object Configuration {
       cassRepFactor,
       cassKeySpace,
       cassTable,
+      batchDuration.toLong,
+      dropTable.toBoolean,
       producerProps
     )
   }

@@ -28,13 +28,14 @@ object MessageLoaderApp extends Logging {
       s.execute(
         s"""CREATE KEYSPACE IF NOT EXISTS ${config.cassKeySpace}
             WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': ${config.cassRepFactor} }""".stripMargin) // toDo: change strategy
-      //s.execute( s"""DROP TABLE IF EXISTS ${config.cassKeySpace}.${config.cassTable}""")
+      if (config.dropTable)
+        s.execute( s"""DROP TABLE IF EXISTS ${config.cassKeySpace}.${config.cassTable}""")
       s.execute(
         s"""CREATE TABLE IF NOT EXISTS ${config.cassKeySpace}.${config.cassTable}
             ( id bigint, notification text, device_guid text, timestamp text, PRIMARY KEY (id, timestamp))""".stripMargin) // TODO: structure of table
     }
 
-    val ssc = new StreamingContext(sparkConf, Seconds(10))
+    val ssc = new StreamingContext(sparkConf, Seconds(config.batchDuration))
 
     val messagesStream = load(ssc, config)
     messagesStream.foreachRDD(rdd => store(rdd, config))
