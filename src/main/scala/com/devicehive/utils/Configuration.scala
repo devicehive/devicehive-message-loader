@@ -1,5 +1,7 @@
 package com.devicehive.utils
 
+import java.util.Properties
+
 case class Configuration (
     kafkaBrokers: String,
     kafkaTopic: String,
@@ -8,7 +10,8 @@ case class Configuration (
     cassPassword: String,
     cassRepFactor: String,
     cassKeySpace: String,
-    cassTable: String
+    cassTable: String,
+    producerProps: Properties
 )
 
 object Configuration {
@@ -22,6 +25,10 @@ object Configuration {
     val cassRepFactor = vars.getOrElse("CASSANDRA_REP_FACTOR", "3")
     val cassKeySpace = vars.getOrElse("CASSANDRA_KEYSPACE_NAME", "devicehive")
     val cassTable = vars.getOrElse("CASSANDRA_TABLE_NAME", "device_messages")
+    val producerProps = new Properties()
+    producerProps.setProperty("bootstrap.servers", "localhost:9092")
+    producerProps.setProperty("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
+    producerProps.setProperty("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
 
     new Configuration(
       kafkaBrokers,
@@ -31,7 +38,8 @@ object Configuration {
       cassPassword,
       cassRepFactor,
       cassKeySpace,
-      cassTable
+      cassTable,
+      producerProps
     )
   }
 }

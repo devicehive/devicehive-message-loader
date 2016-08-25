@@ -13,10 +13,12 @@ lazy val root = (project in file(".")).
         val connectorVersion        = "1.6.0"
 
         Seq(
-          "org.apache.spark"          %% "spark-core"                       % sparkVersion      %      "provided",
-          "org.apache.spark"          %% "spark-streaming"                  % sparkVersion      %      "provided",
-          "org.apache.spark"          %% "spark-streaming-kafka"            % sparkVersion      %      "provided",
-          "com.datastax.spark"        %% "spark-cassandra-connector"        % connectorVersion
+          "org.apache.spark"          %% "spark-sql"                        % sparkVersion,
+          "org.apache.spark"          %% "spark-core"                       % sparkVersion,
+          "org.apache.spark"          %% "spark-streaming"                  % sparkVersion,    
+          "org.apache.spark"          %% "spark-streaming-kafka"            % sparkVersion, 
+          "com.datastax.spark"        %% "spark-cassandra-connector"        % connectorVersion,
+          "org.json4s"                %% "json4s-jackson"                   % "3.2.11"
         )
       }
     )
