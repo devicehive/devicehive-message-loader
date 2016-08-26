@@ -45,5 +45,4 @@ object NotificationProducer extends Logging {
     implicit val formats = DefaultFormats
     Serialization.write(message)
   }
-
 }

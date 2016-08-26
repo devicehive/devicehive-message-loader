@@ -21,7 +21,7 @@ object Configuration {
     val kafkaBrokers = vars.getOrElse("KAFKA_BROKERS", "localhost:9092")
     val kafkaTopic = vars.getOrElse("KAFKA_TOPIC", "devices")
 
-    val cassHost = vars.getOrElse("CASSANDRA_HOST", "localhost:9042")
+    val cassHost = vars.getOrElse("CASSANDRA_HOST", "localhost")
     val cassUser = vars.getOrElse("CASSANDRA_USERNAME", "cassandra")
     val cassPassword = vars.getOrElse("CASSANDRA_PASSWORD", "cassandra")
     val cassRepFactor = vars.getOrElse("CASSANDRA_REP_FACTOR", "3")
