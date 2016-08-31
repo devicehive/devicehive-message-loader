@@ -37,7 +37,7 @@ class EntitySerializer extends CustomSerializer[Entity](format => ( {
 class BodySerializer extends CustomSerializer[Body](format => ( {
   case body: JObject =>
     implicit val format = DefaultFormats
-    val action = (body \ "action").extract[String]
+    val action = (body \ "action").extract[String].toLowerCase()
     action match {
       case "notification_insert" =>
         val devNot = (body \ "deviceNotification").extract[DeviceNotification]
@@ -45,6 +45,7 @@ class BodySerializer extends CustomSerializer[Body](format => ( {
       case "command_insert" =>
         val comNot = (body \ "deviceCommand").extract[DeviceCommand]
         Body(comNot, action)
+      case command => throw new ClassNotFoundException(s"Invalid body action: $command")
     }
 }, {
   case body: Body => JObject() //not interested in serialization

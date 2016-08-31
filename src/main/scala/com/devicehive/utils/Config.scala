@@ -12,6 +12,7 @@ trait Config {
     .set("spark.cassandra.connection.host", config.cassHost)
     .set("spark.cassandra.auth.username", config.cassUser)
     .set("spark.cassandra.auth.password", config.cassPassword)
+    .set("spark.riak.connection.host", config.riakSocket)
 
   object config {
     lazy val kafkaBrokers = env.getOrElse("KAFKA_BROKERS", "localhost:9092")
@@ -29,8 +30,15 @@ trait Config {
     lazy val cassKeySpace = env.getOrElse("CASSANDRA_KEYSPACE_NAME", "devicehive")
     lazy val cassCommandTable = env.getOrElse("CASSANDRA_COMMAND_TABLE_NAME", "device_command")
     lazy val cassNotificationTable = env.getOrElse("CASSANDRA_NOTIFICATION_TABLE_NAME", "device_notification")
+
+    lazy val riakSocket = env.getOrElse("RIAK_SOCKET", "localhost:8087")
+    lazy val riakCommandTable = env.getOrElse("RIAK_COMMAND_TABLE_NAME", "device_command")
+    lazy val riakNotificationTable = env.getOrElse("RIAK_NOTIFICATION_TABLE_NAME", "device_notification")
+
     lazy val batchDuration = env.getOrElse("BATCH_DURATION", "10").toInt
     lazy val dropCommandTable = env.getOrElse("DROP_COMMAND_TABLE", "true").toBoolean
     lazy val dropNotificationTable = env.getOrElse("DROP_NOTIFICATION_TABLE", "true").toBoolean
+
+    lazy val storage = env.getOrElse("STORAGE", "riak")
   }
 }
