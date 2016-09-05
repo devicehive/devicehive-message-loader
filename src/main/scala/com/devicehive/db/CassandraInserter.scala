@@ -19,14 +19,14 @@ object CassandraInserter extends DataInserter {
       }
       s.execute(
         s"""CREATE TABLE IF NOT EXISTS ${config.cassKeySpace}.${config.cassCommandTable}
-            ( id bigint, command text, user_id text, status text, timestamp text, parameters text, PRIMARY KEY (id, timestamp))""".stripMargin) // TODO: structure of table
+            ( id bigint, command text, user_id bigint, device_guid text, timestamp text, parameters text, PRIMARY KEY (id, timestamp))""".stripMargin)
 
       if (config.dropNotificationTable) {
         s.execute( s"""DROP TABLE IF EXISTS ${config.cassKeySpace}.${config.cassNotificationTable}""")
       }
       s.execute(
         s"""CREATE TABLE IF NOT EXISTS ${config.cassKeySpace}.${config.cassNotificationTable}
-            ( id bigint, notification text, device_guid text, timestamp text, parameters text, PRIMARY KEY (id, timestamp))""".stripMargin) // TODO: structure of table
+            ( id bigint, notification text, device_guid text, timestamp text, parameters text, PRIMARY KEY (id, timestamp))""".stripMargin)
     }
   }
 

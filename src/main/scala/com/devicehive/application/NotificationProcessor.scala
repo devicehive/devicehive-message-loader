@@ -11,7 +11,7 @@ object NotificationProcessor extends Logging with Config {
 
   def main(args: Array[String]) {
     logDebug(config.toString)
-    val dataInserter: DataInserter = config.storage match {
+    val dataInserter: DataInserter = config.storage.toLowerCase match {
       case "riak" => RiakInserter
       case "cassandra" => CassandraInserter
       case storage => throw new ClassNotFoundException(s"Invalid storage: $storage")
@@ -20,10 +20,10 @@ object NotificationProcessor extends Logging with Config {
 
     val ssc = new StreamingContext(sparkConf, Seconds(config.batchDuration))
 
-    DataLoader.load[DeviceNotification](ssc, config.kafkaBrokers, config.kafkaNotificationTopic, "notification_insert")
+    DataLoader.load[DeviceNotification](ssc, config.kafkaBrokers, config.kafkaNotificationTopic, "notification_insert_request")
       .foreachRDD(rdd => dataInserter.saveNotifications(rdd))
 
-    DataLoader.load[DeviceCommand](ssc, config.kafkaBrokers, config.kafkaCommandTopic, "command_insert")
+    DataLoader.load[DeviceCommand](ssc, config.kafkaBrokers, config.kafkaCommandTopic, "command_insert_request")
       .foreachRDD(rdd => dataInserter.saveCommands(rdd))
 
     ssc.start()

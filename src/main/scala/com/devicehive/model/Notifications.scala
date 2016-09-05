@@ -1,8 +1,9 @@
 package com.devicehive.model
 
 sealed trait DeviceMessage
-case class DeviceNotification(id: Int, notification: String, deviceGuid: String, timestamp: String, parameters: String = null) extends DeviceMessage // how to parse parameters?
-case class DeviceCommand(id: Int, command: String, userId: Int, status: String, timestamp: String, parameters: String = null) extends DeviceMessage // TODO: subject to change
+case class DeviceNotification(id: Long, notification: String, deviceGuid: String, timestamp: String, parameters: String = null) extends DeviceMessage
+case class DeviceCommand(id: Long, command: String, userId: Long, deviceGuid: String, timestamp: String, parameters: String = null) extends DeviceMessage // more fields
+case class DeviceMessageDefault() extends DeviceMessage
 //case class Parameters(mac: String, uuid: String, value: Double)
 
 case class Body(notification: DeviceMessage, action: String)

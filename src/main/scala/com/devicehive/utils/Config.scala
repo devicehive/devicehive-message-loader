@@ -16,8 +16,8 @@ trait Config {
 
   object config {
     lazy val kafkaBrokers = env.getOrElse("KAFKA_BROKERS", "localhost:9092")
-    lazy val kafkaNotificationTopic = env.getOrElse("KAFKA_NOTIFICATION_TOPIC", "device_notification")
-    lazy val kafkaCommandTopic = env.getOrElse("KAFKA_COMMAND_TOPIC", "device_command")
+    lazy val kafkaNotificationTopic = env.getOrElse("KAFKA_NOTIFICATION_TOPIC", "request_topic")
+    lazy val kafkaCommandTopic = env.getOrElse("KAFKA_COMMAND_TOPIC", "request_topic")
     lazy val producerProps = new Properties()
     producerProps.setProperty("bootstrap.servers", kafkaBrokers)
     producerProps.setProperty("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
